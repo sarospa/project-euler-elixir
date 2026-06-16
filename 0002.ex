@@ -1,4 +1,6 @@
-defmodule Euler002 do
+# Solution to https://projecteuler.net/problem=2
+
+defmodule Euler0002 do
 	def fibonacci(n) when n > 2 do
 		fibonacci(n - 1) + fibonacci(n - 2)
 	end
@@ -22,4 +24,4 @@ defmodule Euler002 do
 	end
 end
 
-IO.puts(Euler002.solve(1, 0))
+IO.puts(Euler0002.solve(1, 0))
