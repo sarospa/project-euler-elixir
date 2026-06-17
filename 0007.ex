@@ -1,4 +1,6 @@
-defmodule Euler007 do
+# Solution to https://projecteuler.net/problem=7
+
+defmodule Euler0007 do
 	def findPrimes(primes, n) do
 		cond do
 			length(primes) == 10001 -> List.first(primes)
@@ -8,4 +10,4 @@ defmodule Euler007 do
 	end
 end
 
-IO.puts(Euler007.findPrimes([], 2))
+IO.puts(Euler0007.findPrimes([], 2))

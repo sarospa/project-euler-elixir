@@ -1,4 +1,6 @@
-defmodule Euler003 do
+# Solution to https://projecteuler.net/problem=3
+
+defmodule Euler0003 do
 	def findLargestPrimeFactor(n, x) do
 		cond do
 			rem(n, x) == 0 -> findLargestPrimeFactor(div(n, x), x)
@@ -8,4 +10,4 @@ defmodule Euler003 do
 	end
 end
 
-IO.puts(Euler003.findLargestPrimeFactor(600851475143, 2))
+IO.puts(Euler0003.findLargestPrimeFactor(600851475143, 2))
