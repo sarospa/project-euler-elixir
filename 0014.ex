@@ -1,29 +1,18 @@
 # Solution to https://projecteuler.net/problem=14
 
-defmodule Euler0014 do
-	use Agent
-	
-	def start do
-		Agent.start_link(fn -> %{1 => 1} end, name: __MODULE__)
-	end
+Code.require_file("memoize.ex")
 
-	def collatz(n) do
-		cached_value = Agent.get(__MODULE__, &(Map.get(&1, n)))
-	
-		if cached_value do
-			cached_value
-		else
-			cond do
-				rem(n, 2) == 0 ->
-					v = 1 + collatz(trunc(n / 2))
-					Agent.update(__MODULE__, &(Map.put(&1, n, v)))
-					v
-				true ->
-					v = 1 + collatz(n * 3 + 1)
-					Agent.update(__MODULE__, &(Map.put(&1, n, v)))
-					v
-			end
+defmodule Euler0014 do
+	def collatz_unmem(n) do
+		cond do
+			n == 1 -> 1
+			rem(n, 2) == 0 -> 1 + collatz(trunc(n / 2))
+			true -> 1 + collatz(n * 3 + 1)
 		end
+	end
+	
+	def collatz(n) do
+		Memoize.memoize_func(&collatz_unmem/1).(n)
 	end
 	
 	def findCollatz(n, best_n, chain_length) do
@@ -35,5 +24,4 @@ defmodule Euler0014 do
 	end
 end
 
-Euler0014.start()
 IO.puts(Euler0014.findCollatz(1, 0, 0))
