@@ -12,7 +12,7 @@ defmodule Euler0026 do
 	end
 	
 	def longest_chain() do
-		(for n <- 2..999, do: n) |> List.foldr(1, fn acc, n -> if reciprocal_chain(acc, 1, []) < reciprocal_chain(n, 1, []) do n else acc end end)
+		(for n <- 2..999, do: n) |> List.foldl(1, fn n, acc -> if reciprocal_chain(acc, 1, []) < reciprocal_chain(n, 1, []) do n else acc end end)
 	end
 end
 
