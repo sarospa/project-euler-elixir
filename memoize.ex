@@ -6,7 +6,7 @@ defmodule Memoize do
 			Agent.start_link(fn -> %{} end, name: __MODULE__)
 			
 			cached_value = Agent.get(__MODULE__, &(Map.get(&1, n)))
-			if cached_value do
+			if cached_value != nil do
 				cached_value
 			else
 				v = fun.(n)

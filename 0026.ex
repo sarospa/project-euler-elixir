@@ -1,3 +1,5 @@
+# Solution to https://projecteuler.net/problem=26
+
 defmodule Euler0026 do
 	def reciprocal_chain(n, top, chain) do
 		term = div(top * 10, n)

@@ -1,3 +1,5 @@
+# Solution to https://projecteuler.net/problem=23
+
 defmodule Euler0023 do
 	def divisor_sum(n) do
 		(for x <- 1..trunc(n ** 0.5), rem(n, x) == 0, do: (if x * x == n or x == 1 do x else x + (div(n, x)) end)) |> Enum.sum()

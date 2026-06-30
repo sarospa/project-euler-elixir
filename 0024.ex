@@ -1,3 +1,5 @@
+# Solution to https://projecteuler.net/problem=24
+
 defmodule Euler0024 do
 	def find_lex_permutation(list, target) do
 		if length(list) == 1 do
