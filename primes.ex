@@ -1,15 +1,31 @@
-Code.require_file("memoize.ex")
-
 defmodule Primes do
-	def prime_unmem(n) do
-		cond do
-			n < 2 -> false
-			n == 2 or n == 3 -> true
-			true -> !Enum.any?(for x <- 2..((n ** 0.5) |> trunc()), prime?(x), do: rem(n, x) == 0)
+	use Agent
+
+	def prime?(n) do
+		Agent.start_link(fn -> %{1 => false} end, name: __MODULE__)
+	
+		cached_value = Agent.get(__MODULE__, &(Map.get(&1, n)))
+		if cached_value != nil do
+			cached_value
+		else
+			result = cond do
+				n < 2 -> false
+				n == 2 or n == 3 -> true
+				true -> !Enum.any?(for x <- 2..((n ** 0.5) |> trunc()), prime?(x), do: rem(n, x) == 0)
+			end
+			Agent.update(__MODULE__, &(Map.put(&1, n, result)))
+			result
 		end
 	end
 	
-	def prime?(n) do
-		Memoize.memoize_func(&prime_unmem/1).(n)
+	def sieve(n) do
+		Agent.start_link(fn -> %{} end, name: __MODULE__)
+	
+		for p <- 2..n do
+			if Agent.get(__MODULE__, &(Map.get(&1, p))) != false do
+				Agent.update(__MODULE__, &(Map.put(&1, p, true)))
+				for x <- (p*2)..n//p, do: Agent.update(__MODULE__, &(Map.put(&1, x, false)))
+			end
+		end
 	end
 end
