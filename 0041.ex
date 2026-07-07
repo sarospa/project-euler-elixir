@@ -1,4 +1,4 @@
-# Solution to https://projecteuler.net/problem=40
+# Solution to https://projecteuler.net/problem=41
 
 Code.require_file("primes.ex")
 
