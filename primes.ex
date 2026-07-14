@@ -29,3 +29,29 @@ defmodule Primes do
 		end
 	end
 end
+
+defmodule Factors do
+	use Agent
+	
+	def factors(n) do
+		Agent.start_link(fn -> %{1 => [1]} end, name: __MODULE__)
+		
+		cached_value = Agent.get(__MODULE__, &(Map.get(&1, n)))
+		if cached_value != nil do
+			cached_value
+		else
+			v = find_factors(n, [], 2)
+			Agent.update(__MODULE__, &(Map.put(&1, n, v)))
+			v
+		end
+	end
+	
+	def find_factors(n, factors, x) do
+		cond do
+			x > n -> factors
+			x == n -> [x | factors]
+			rem(n, x) != 0 -> find_factors(n, factors, x + 1)
+			true -> find_factors(div(n, x), [x | factors], x)
+		end
+	end
+end
