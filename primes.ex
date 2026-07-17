@@ -11,7 +11,7 @@ defmodule Primes do
 			result = cond do
 				n < 2 -> false
 				n == 2 or n == 3 -> true
-				true -> !Enum.any?(for x <- 2..((n ** 0.5) |> trunc()), prime?(x), do: rem(n, x) == 0)
+				true -> !Enum.any?(for x <- 3..((n ** 0.5) |> trunc())//2, do: rem(n, x) == 0) and rem(n, 2) != 0
 			end
 			Agent.update(__MODULE__, &(Map.put(&1, n, result)))
 			result
