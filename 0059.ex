@@ -12,4 +12,4 @@ defmodule Euler0059 do
 	end
 end
 
-IO.inspect(Euler0059.decrypt(), charlists: :as_charlists)
+IO.puts(Euler0059.decrypt())
