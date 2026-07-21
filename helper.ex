@@ -40,4 +40,13 @@ defmodule Helper do
 		n = (2 + ((12 * n) + 4) ** 0.5) / 6
 		n == trunc(n)
 	end
+	
+	def palindrome?(n) do
+		num = Integer.to_string(n)
+		num == String.reverse(num)
+	end
+	
+	def permutations?(n, m) do
+		(Integer.to_string(n) |> String.graphemes() |> Enum.sort()) == (Integer.to_string(m) |> String.graphemes() |> Enum.sort())
+	end
 end
