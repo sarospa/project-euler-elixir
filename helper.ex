@@ -49,4 +49,19 @@ defmodule Helper do
 	def permutations?(n, m) do
 		(Integer.to_string(n) |> String.graphemes() |> Enum.sort()) == (Integer.to_string(m) |> String.graphemes() |> Enum.sort())
 	end
+	
+	def int_sqrt(n, lower, upper) do
+		mid = div(lower + upper, 2)
+		mid_sq = mid ** 2
+		cond do
+			upper == lower + 1 and mid_sq != n -> nil
+			mid_sq == n -> mid
+			mid_sq > n -> int_sqrt(n, lower, mid)
+			mid_sq < n -> int_sqrt(n, mid, upper)
+		end
+	end
+	
+	def int_sqrt(n) do
+		int_sqrt(n, 0, n)
+	end
 end
