@@ -1,7 +1,5 @@
 # Solution to https://projecteuler.net/problem=66
 
-Code.require_file("helper.ex")
-
 defmodule Euler0066 do
 	def continued_fraction_term(n, numer, denom) do
 		recip_denom = n - (denom ** 2)
