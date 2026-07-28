@@ -54,4 +54,15 @@ defmodule Factors do
 			true -> find_factors(div(n, x), [x | factors], x)
 		end
 	end
+	
+	def find_prime_factors(n, factors \\ [], x \\ 2) do
+		cond do
+			x ** 2 > n -> factors
+			!Primes.prime?(x) -> if x ** 2 < n do find_prime_factors(n, factors, x + 1) else factors end
+			x ** 2 == n -> [x | factors]
+			rem(n, x) != 0 -> find_prime_factors(n, factors, x + 1)
+			Primes.prime?(div(n, x)) -> find_prime_factors(n, [div(n, x) | [x | factors]], x + 1)
+			true -> find_prime_factors(n, [x | factors], x + 1)
+		end
+	end
 end
