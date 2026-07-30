@@ -65,4 +65,43 @@ defmodule Factors do
 			true -> find_prime_factors(n, [x | factors], x + 1)
 		end
 	end
+	
+	def gcd(n, m) do
+		(for x <- 1..Enum.min([n, m]), rem(n, x) == 0 and rem(m, x) == 0, do: x) |> Enum.max()
+	end
+end
+
+defmodule Totient do
+	use Agent
+	
+	@small_primes for n <- 2..100, Primes.prime?(n), do: n
+
+	def totient(n) do
+		Agent.start_link(fn -> %{1 => 1} end, name: __MODULE__)
+		
+		cached_value = Agent.get(__MODULE__, &(Map.get(&1, n)))
+		if cached_value == nil do
+			if Primes.prime?(n) do
+				n - 1
+			else
+				prime = Enum.find(@small_primes, fn p -> rem(n, p) == 0 end)
+				t = if prime == nil do
+					factors = Factors.find_prime_factors(n)
+					{numer, denom} = List.foldl(factors, {1, 1}, fn x, acc -> {elem(acc, 0) * (x - 1), elem(acc, 1) * x} end)
+					div(n * numer, denom)
+				else
+					factor = Stream.unfold(prime, fn p -> {p * prime, p * prime} end) |> Enum.find(fn p -> rem(n, p) != 0 end) |> div(prime)
+					if factor == n do
+						totient(div(factor, prime)) * prime
+					else
+						totient(factor) * totient(div(n, factor))
+					end
+				end
+				Agent.update(__MODULE__, &(Map.put(&1, n, t)))
+				t
+			end
+		else
+			cached_value
+		end		
+	end
 end
