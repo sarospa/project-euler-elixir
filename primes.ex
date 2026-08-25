@@ -56,13 +56,22 @@ defmodule Factors do
 	end
 	
 	def find_prime_factors(n, factors \\ [], x \\ 2) do
+		next_factors = if Primes.prime?(x) do [x | factors] else factors end
+		next_factors = if rem(n, x) == 0 and Primes.prime?(div(n, x)) do [div(n, x) | next_factors] else next_factors end
 		cond do
 			x ** 2 > n -> factors
-			!Primes.prime?(x) -> if x ** 2 < n do find_prime_factors(n, factors, x + 1) else factors end
-			x ** 2 == n -> [x | factors]
+			x ** 2 == n and Primes.prime?(x) -> [x | factors]
 			rem(n, x) != 0 -> find_prime_factors(n, factors, x + 1)
-			Primes.prime?(div(n, x)) -> find_prime_factors(n, [div(n, x) | [x | factors]], x + 1)
-			true -> find_prime_factors(n, [x | factors], x + 1)
+			true -> find_prime_factors(n, next_factors, x + 1)
+		end
+	end
+	
+	def proper_factors(n, factors \\ [1], x \\ 2) do
+		cond do
+			x ** 2 > n -> factors
+			n ** 2 == n -> [x | factors]
+			rem(n, x) != 0 -> proper_factors(n, factors, x + 1)
+			true -> proper_factors(n, [div(n, x) | [x | factors]], x + 1)
 		end
 	end
 	
