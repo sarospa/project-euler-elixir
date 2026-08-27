@@ -3,10 +3,6 @@
 defmodule Euler0098 do
 	@words File.read!("0098_words.txt") |> String.replace("\t", "") |> String.replace("\"", "") |> String.split(",", trim: true)
 	
-	def words() do
-		@words
-	end
-	
 	def anagrams?(word1, word2) do
 		(String.graphemes(word1) |> Enum.sort()) == (String.graphemes(word2) |> Enum.sort())
 	end
