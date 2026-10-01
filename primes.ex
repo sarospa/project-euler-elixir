@@ -34,7 +34,7 @@ defmodule Factors do
 	use Agent
 	
 	def factors(n) do
-		Agent.start_link(fn -> %{1 => [1]} end, name: __MODULE__)
+		Agent.start_link(fn -> %{1 => []} end, name: __MODULE__)
 		
 		cached_value = Agent.get(__MODULE__, &(Map.get(&1, n)))
 		if cached_value != nil do
