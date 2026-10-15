@@ -6,7 +6,7 @@ defmodule Euler0135 do
 			nil -> nil
 			0 -> {0, nil}
 			x -> {x, if x > 0 do x * -1 else (x * -1) - 1 end} end) |> Enum.take_while(fn b -> a**2 - b**2 < limit end)
-			|> Enum.filter(fn b -> b > -div(a, 2) end)
+				|> Enum.filter(fn b -> b > -div(a, 2) end)
 	end
 
 	def find_differences(limit \\ 10**6) do
