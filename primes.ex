@@ -69,7 +69,7 @@ defmodule Factors do
 	def proper_factors(n, factors \\ [1], x \\ 2) do
 		cond do
 			x ** 2 > n -> factors
-			n ** 2 == n -> [x | factors]
+			x ** 2 == n -> [x | factors]
 			rem(n, x) != 0 -> proper_factors(n, factors, x + 1)
 			true -> proper_factors(n, [div(n, x) | [x | factors]], x + 1)
 		end
